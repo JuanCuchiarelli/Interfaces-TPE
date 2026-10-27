@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blocka — Mundo Juegos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/game.css">
+<link rel="stylesheet" href="css/blocka.css">
+</head>
+<body data-game-id="blocka">
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="site-header__inner">
+    <button class="icon-btn menu-toggle" id="menu-open" aria-label="Abrir menú" aria-controls="side-menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+
+    <a href="index.html" class="logo">
+      <img src="img/logo-mundo-juegos.png" alt="Mundo Juegos">
+    </a>
+
+    <button type="button" class="icon-btn search-toggle" id="search-toggle" aria-label="Abrir buscador" aria-expanded="false" aria-controls="search-form">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </button>
+
+    <form class="search-bar" id="search-form" role="search" onsubmit="return false;">
+      <input type="search" placeholder="¿A qué jugamos hoy?" aria-label="Buscar juegos">
+      <button type="submit" class="icon-btn search-btn" aria-label="Buscar">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </form>
+
+    <a href="login.html" class="profile-btn">
+      Perfil
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+      </svg>
+    </a>
+  </div>
+</header>
+
+<!-- ============ MENÚ LATERAL (idéntico al Home) ============ -->
+<nav class="side-menu" id="side-menu" aria-label="Menú principal" aria-hidden="true">
+  <button class="icon-btn menu-close" id="menu-close" aria-label="Cerrar menú">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="4" y1="4" x2="20" y2="20"/>
+      <line x1="20" y1="4" x2="4" y2="20"/>
+    </svg>
+  </button>
+
+  <div class="side-menu__user">
+    <span class="avatar" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/>
+      </svg>
+    </span>
+    Hola, Usuario
+  </div>
+
+  <ul class="side-menu__list">
+    <li><a href="index.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3 2 12h3v8h6v-5h2v5h6v-8h3z"/></svg> Inicio</a></li>
+    <li><a href="index.html#populares"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2a5 5 0 0 0-3 9l-1 5h8l-1-5a5 5 0 0 0-3-9zM9 18h6v2H9z"/></svg> Juegos nuevos</a></li>
+    <li><a href="#"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M2 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5zM14.5 20c.3-2.6 1.8-4.3 4-4.7 2 .5 3.2 2.1 3.5 4.7z"/></svg> Multijugador</a></li>
+    <li><a href="#"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2a5 5 0 0 0-3 9l-1 5h8l-1-5a5 5 0 0 0-3-9zM9 18h6v2H9z"/></svg> Aventura</a></li>
+    <li><a href="#"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="8" cy="8" r="4"/><path d="M11 11 21 21M15 17l3-3"/></svg> Estrategia</a></li>
+    <li><a href="#"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l2.6 5.6 6.2.6-4.6 4.1 1.3 6.1L12 16.3 6.5 19.4l1.3-6.1-4.6-4.1 6.2-.6z"/></svg> Mis favoritos</a></li>
+    <li><a href="login.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg> Mi perfil</a></li>
+  </ul>
+
+  <div class="side-menu__social">
+    <p>Seguinos en redes:</p>
+    <div class="social-icons">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16"/><path d="M14 9h2V6h-2a3 3 0 0 0-3 3v2H9v3h2v5h3v-5h2l1-3h-3v-2a1 1 0 0 1 1-1z"/></svg></a>
+      <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M10 9.5v5l5-2.5z" fill="currentColor" stroke="none"/></svg></a>
+    </div>
+  </div>
+</nav>
+<div class="side-menu-overlay" id="side-menu-overlay" hidden></div>
+
+<main class="game-page">
+
+  <!-- ============ BREADCRUMBS ============ -->
+  <nav class="breadcrumbs" aria-label="Miga de pan">
+    <a href="index.html">Home</a>
+    <span aria-hidden="true">›</span>
+    <a href="index.html">Juegos</a>
+    <span aria-hidden="true">›</span>
+    <a href="index.html" id="bc-category">Puzzle</a>
+    <span aria-hidden="true">›</span>
+    <span aria-current="page" id="bc-current">Blocka</span>
+  </nav>
+
+  <h1 class="game-title" id="game-title">Blocka</h1>
+
+  <!-- ============ ÁREA DE JUEGO + AYUDA ============ -->
+  <section class="game-run">
+    <div class="blocka" aria-label="Área de ejecución del juego">
+      <!-- Portada: ocupa todo el recuadro del juego -->
+      <div class="blocka__screen blocka__screen--cover" id="screen-menu">
+        <h2 class="sr-only">Blocka</h2>
+        <button type="button" class="btn blocka__play-btn" id="btn-play">▶ Jugar</button>
+      </div>
+
+      <div class="blocka__hud">
+        <span class="blocka__level" id="blocka-level">Menú principal</span>
+        <span class="blocka__filter" id="blocka-filter"></span>
+        <span class="blocka__timer-wrap">
+          <span class="blocka__timer" id="blocka-timer" aria-live="off">00:00</span>
+          <span class="blocka__penalty" id="blocka-penalty" hidden>+5 s</span>
+        </span>
+        <span class="blocka__limit" id="blocka-limit" hidden></span>
+        <span class="blocka__record" id="blocka-record"></span>
+      </div>
+
+      <div class="blocka__stage">
+        <canvas id="blocka-canvas" width="560" height="560">Tu navegador no soporta canvas.</canvas>
+
+        <!-- Menú principal -->
+        <!-- Cargando la imagen del nivel -->
+        <div class="blocka__screen" id="screen-loading" hidden>
+          <p>Preparando el nivel…</p>
+        </div>
+
+        <!-- Nivel listo: el timer arranca con "Comenzar" -->
+        <div class="blocka__screen blocka__screen--soft" id="screen-ready" hidden>
+          <h2 class="blocka__screen-title" id="ready-title">Nivel 1</h2>
+          <p id="ready-filter">Filtro: Escala de grises</p>
+          <p class="blocka__ready-limit" id="ready-limit"></p>
+          <button type="button" class="btn btn--primary" id="btn-start">Comenzar</button>
+        </div>
+
+        <!-- Nivel completado -->
+        <div class="blocka__screen blocka__screen--bottom" id="screen-win" hidden>
+          <h2 class="blocka__screen-title" id="win-title">¡Nivel completado!</h2>
+          <p id="win-time"></p>
+          <div class="blocka__buttons">
+            <button type="button" class="btn btn--secondary" id="btn-win-menu">Menú principal</button>
+            <button type="button" class="btn btn--primary" id="btn-next">Siguiente nivel →</button>
+          </div>
+        </div>
+
+        <!-- Nivel perdido (se acabó el tiempo máximo) -->
+        <div class="blocka__screen blocka__screen--soft" id="screen-lose" hidden>
+          <h2 class="blocka__screen-title">⏳ ¡Se acabó el tiempo!</h2>
+          <div class="blocka__buttons">
+            <button type="button" class="btn btn--secondary" id="btn-lose-menu">Menú principal</button>
+            <button type="button" class="btn btn--primary" id="btn-retry">Reintentar</button>
+          </div>
+        </div>
+
+        <!-- Error (imagen no encontrada o página abierta con doble clic) -->
+        <div class="blocka__screen" id="screen-error" hidden>
+          <p id="error-text"></p>
+          <button type="button" class="btn btn--primary" id="btn-error-menu">Volver al menú</button>
+        </div>
+      </div>
+
+      <div class="blocka__actions">
+        <button type="button" class="btn btn--secondary" id="btn-menu" hidden>Menú principal</button>
+        <button type="button" class="btn btn--primary blocka__help-btn" id="btn-help" hidden>💡 Ayudita (+5 s)</button>
+      </div>
+    </div>
+
+    <aside class="game-run__help">
+      <h2>Cómo jugar:</h2>
+      <!-- Texto completo para lectores de pantalla; a la vista va la versión con dibujos -->
+      <p id="game-howto" class="sr-only">
+        Cada nivel muestra una imagen partida en 4 piezas rotadas y con un
+        filtro aplicado. Hacé clic izquierdo sobre una pieza para girarla a la
+        izquierda o clic derecho para girarla a la derecha. Cuando las 4 quedan
+        derechas, el reloj se detiene y aparece la imagen original.
+      </p>
+
+      <p class="howto__intro">
+        ¡Animales salvajes escondidos en piezas mezcladas!
+        Descubrí qué animal se esconde en cada nivel.
+      </p>
+
+      <div class="howto" aria-hidden="true">
+        <!-- Los dos clics -->
+        <div class="howto__clicks">
+          <figure class="howto__click">
+            <svg class="howto-mouse" viewBox="0 0 90 90" width="96" height="96">
+              <!-- flecha de giro (en el mouse espejado queda hacia el otro lado) -->
+              <path d="M40 10 A30 30 0 0 0 12 38" fill="none" stroke="var(--color-accent)" stroke-width="6" stroke-linecap="round"/>
+              <polygon points="3,34 21,34 12,48" fill="var(--color-accent)"/>
+              <!-- mouse -->
+              <rect x="34" y="20" width="40" height="62" rx="20" fill="#fff" stroke="var(--color-primary-500)" stroke-width="4"/>
+              <path class="howto-mouse__btn" d="M34 40 v-0 a20 20 0 0 1 20-20 v20 z" fill="var(--color-accent)" stroke="var(--color-primary-500)" stroke-width="4" stroke-linejoin="round"/>
+              <line x1="54" y1="20" x2="54" y2="40" stroke="var(--color-primary-500)" stroke-width="4"/>
+              <line x1="34" y1="40" x2="74" y2="40" stroke="var(--color-primary-500)" stroke-width="4"/>
+            </svg>
+            <figcaption>Rotar imagen a la <strong>izquierda</strong></figcaption>
+          </figure>
+          <figure class="howto__click howto__click--right">
+            <svg class="howto-mouse" viewBox="0 0 90 90" width="96" height="96">
+              <!-- flecha de giro (en el mouse espejado queda hacia el otro lado) -->
+              <path d="M40 10 A30 30 0 0 0 12 38" fill="none" stroke="var(--color-accent)" stroke-width="6" stroke-linecap="round"/>
+              <polygon points="3,34 21,34 12,48" fill="var(--color-accent)"/>
+              <!-- mouse -->
+              <rect x="34" y="20" width="40" height="62" rx="20" fill="#fff" stroke="var(--color-primary-500)" stroke-width="4"/>
+              <path class="howto-mouse__btn" d="M34 40 v-0 a20 20 0 0 1 20-20 v20 z" fill="var(--color-accent)" stroke="var(--color-primary-500)" stroke-width="4" stroke-linejoin="round"/>
+              <line x1="54" y1="20" x2="54" y2="40" stroke="var(--color-primary-500)" stroke-width="4"/>
+              <line x1="34" y1="40" x2="74" y2="40" stroke="var(--color-primary-500)" stroke-width="4"/>
+            </svg>
+            <figcaption>Rotar imagen a la <strong>derecha</strong></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="share">
+        <h2>Compartir juego:</h2>
+        <div class="share__icons">
+          <a href="#" id="share-email" class="icon-circle" aria-label="Compartir por email">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </a>
+          <a href="#" id="share-message" class="icon-circle" target="_blank" rel="noopener" aria-label="Compartir por mensaje (WhatsApp)">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><circle cx="8" cy="10.5" r="1.2" fill="var(--color-primary-500)"/><circle cx="12" cy="10.5" r="1.2" fill="var(--color-primary-500)"/><circle cx="16" cy="10.5" r="1.2" fill="var(--color-primary-500)"/></svg>
+          </a>
+          <a href="#" id="share-facebook" class="icon-circle" target="_blank" rel="noopener" aria-label="Compartir en Facebook">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M14 9h2V6h-2a3 3 0 0 0-3 3v2H9v3h2v5h3v-5h2l1-3h-3v-2a1 1 0 0 1 1-1z"/></svg>
+          </a>
+          <button type="button" id="share-instagram" class="icon-circle" aria-label="Copiar enlace para compartir en Instagram">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </button>
+        </div>
+        <p class="share__status" id="share-status" role="status" aria-live="polite"></p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ============ DESCRIPCIÓN + GALERÍA ============ -->
+  <section class="about-box">
+    <h2 id="about-title">Acerca de Blocka:</h2>
+    <p id="about-text">
+      Blocka es un rompecabezas de imágenes: cada nivel elige una imagen al
+      azar, la divide en cuatro partes, las gira y les aplica un filtro de
+      color. Tu objetivo es devolver cada pieza a su lugar en el menor tiempo
+      posible. A medida que avanzás, los filtros cambian y en el último nivel
+      cada pieza tiene un filtro distinto.
+    </p>
+
+    <h3>Galería de imágenes</h3>
+    <div class="gallery" id="gallery" role="region" aria-roledescription="carrusel" aria-label="Galería de imágenes">
+      <button type="button" class="gallery__arrow" id="gallery-prev" aria-label="Imágenes anteriores">‹</button>
+      <div class="gallery__viewport">
+        <ul class="gallery__track" id="gallery-track"></ul>
+      </div>
+      <button type="button" class="gallery__arrow" id="gallery-next" aria-label="Imágenes siguientes">›</button>
+    </div>
+    <p class="gallery__status" id="gallery-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <!-- ============ COMUNIDAD / COMENTARIOS ============ -->
+  <section class="comments" aria-label="Comentarios de la comunidad">
+    <h2>
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg>
+      Comentarios
+    </h2>
+
+    <form class="comment-form" id="comment-form">
+      <div class="avatar avatar--sm" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+      </div>
+      <div class="comment-form__field">
+        <textarea placeholder="¿Qué pensás de este juego?" aria-label="Tu comentario" required></textarea>
+        <button type="submit" class="btn btn--primary" disabled>Agregar comentario</button>
+      </div>
+    </form>
+
+    <ul class="comment-list" id="comment-list">
+      <li class="comment">
+        <div class="avatar avatar--sm" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        </div>
+        <div class="comment__body">
+          <p class="comment__meta"><strong>Ana</strong> <span>hace 1 día</span></p>
+          <p class="comment__text">Me gusta este juego</p>
+          <div class="comment__actions">
+            <button type="button">👍 0</button>
+            <button type="button">👎 0</button>
+            <button type="button">Responder</button>
+          </div>
+        </div>
+      </li>
+      <li class="comment">
+        <div class="avatar avatar--sm" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        </div>
+        <div class="comment__body">
+          <p class="comment__meta"><strong>Pedro</strong> <span>hace 1 año</span></p>
+          <p class="comment__text">El juego esta bueno!!</p>
+          <div class="comment__actions">
+            <button type="button">👍 7</button>
+            <button type="button">👎 0</button>
+            <button type="button">Responder</button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <a href="index.html" class="back-home">← Volver a la página principal</a>
+</main>
+
+<!-- ============ FOOTER (idéntico al Home) ============ -->
+<footer class="site-footer">
+  <p class="site-footer__brand">MundoJuegos.com</p>
+  <p class="site-footer__desc">
+    En MundoJuegos encontrás cientos de títulos gratis y premium para jugar
+    directo desde el navegador. Sin descargas, sin complicaciones: elegí tu
+    juego y arrancá a jugar.
+  </p>
+
+  <div class="site-footer__cols">
+    <div class="footer-col">
+      <h3>Explorar</h3>
+      <a href="index.html">Inicio</a>
+      <a href="#">Categorías</a>
+      <a href="#">Nuevos</a>
+      <a href="#">Más jugados</a>
+    </div>
+    <div class="footer-col">
+      <h3>Cuenta</h3>
+      <a href="login.html">Mi Perfil</a>
+      <a href="#">Favoritos</a>
+      <a href="#">Mis compras</a>
+      <a href="#">Configuración</a>
+    </div>
+    <div class="footer-col">
+      <h3>Soporte</h3>
+      <a href="#">Ayuda</a>
+      <a href="#">Contactos</a>
+      <a href="#">Preguntas frecuentes</a>
+      <a href="#">Configuración</a>
+    </div>
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <a href="#">Términos</a>
+      <a href="#">Privacidad</a>
+      <a href="#">Cookies</a>
+      <a href="#">Sobre nosotros</a>
+    </div>
+  </div>
+
+  <p class="site-footer__copy">© 2026 Mundo Juegos · Todos los derechos reservados</p>
+</footer>
+
+<script src="js/games.js"></script>
+<script src="js/script.js"></script>
+<script src="js/game.js"></script>
+<script src="js/blocka.js"></script>
+<script src="js/footer.js"></script>
+</body>
+</html>

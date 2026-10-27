@@ -1,0 +1,135 @@
+/* ==========================================================================
+   PIRATES PEG SOLITAIRE — área de juego (se suma a game.css)
+   Usa los tokens del Design System (variables.css). Prefijo .peg-
+   ========================================================================== */
+
+.peg-juego {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+}
+.peg-juego[hidden] { display: none; }
+
+/* Marco del juego: madera oscura (combina con el tablero en vez del dorado/azul del sitio) */
+.game-run__board.game-run__board--peg {
+  background: radial-gradient(ellipse at 50% 0%, #5a3a1d 0%, #3a2312 60%, #26160a 100%);
+  border: 3px solid #6b4423;
+}
+
+/* HUD: tiempo, fichas restantes, movimientos (cartelitos de pergamino) */
+.peg-hud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+.peg-dato {
+  position: relative;
+  min-width: 120px;
+  padding: 0.4rem var(--space-2);
+  border-radius: 5px;                         /* chapa de madera, no pastilla */
+  background: linear-gradient(180deg, #ead9a6, #d9be80);
+  border: 3px solid #6b4423;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5), inset 0 0 14px rgba(120, 80, 20, 0.28);
+  color: #3b2412;
+  text-align: center;
+  line-height: 1.15;
+}
+/* Cada cartel está apenas torcido, como clavado a mano, con dos clavitos */
+.peg-dato:nth-child(1) { transform: rotate(-1.4deg); }
+.peg-dato:nth-child(2) { transform: rotate(0.7deg) translateY(2px); }
+.peg-dato:nth-child(3) { transform: rotate(-0.5deg); }
+.peg-dato::before, .peg-dato::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #5a4a30;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.peg-dato::before { left: 6px; }
+.peg-dato::after { right: 6px; }
+.peg-dato small {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a5a2b;
+}
+.peg-dato strong { font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+/* Últimos 30 segundos: el timer se pone rojo y late */
+.peg-dato strong.peligro { color: #b3261e; animation: pegLatido 0.8s ease-in-out infinite; }
+@keyframes pegLatido { 50% { transform: scale(1.18); } }
+
+/* Canvas cuadrado: nunca más alto que la pantalla (sin scroll) y sin deformarse */
+.peg-canvas {
+  display: block;
+  width: min(720px, 100%, calc(100vh - 460px));
+  min-width: 300px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  border: 5px solid #6b4423;
+  outline: 2px solid #c9a45c;
+  outline-offset: -1px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+  background: #0a2540;
+}
+
+/* Controles */
+.peg-controles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+.peg-controles label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: #f3e3b5;
+}
+.peg-controles select {
+  padding: 0.5rem 0.7rem;
+  border: 2px solid #c9a45c;
+  border-radius: 4px;
+  background: #ead9a6;
+  color: #3b2412;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.peg-controles select:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+
+/* Botón Reiniciar: dorado con texto marrón (se pisan los colores azules de .btn) */
+.peg-controles .peg-btn {
+  background: var(--color-accent);
+  color: #3b2412;
+  border: 2px solid #5a3a1c;
+  border-bottom-width: 5px;                   /* botón "de chapa", con grosor */
+  border-radius: 6px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.peg-controles .peg-btn:hover { background: #ffd45e; }
+.peg-controles .peg-btn:active { background: var(--color-accent-dark); border-bottom-width: 2px; transform: translateY(3px); }
+.peg-controles .peg-btn:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+/* Mensaje de ayuda */
+.peg-mensaje {
+  min-height: 2.6em;
+  max-width: 720px;
+  margin: 0;
+  text-align: center;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: #f3e3b5;
+}
