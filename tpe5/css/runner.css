@@ -1,0 +1,241 @@
+/* ==========================================================================
+   DEEP DIVE (TPE 5) — runner submarino. Se suma a game.css.
+   El juego tiene un "escenario" fijo de 960x540 que se escala al ancho
+   disponible con transform: scale() desde runner.js.
+   ========================================================================== */
+
+.runner {
+  /* paleta propia del juego (mar profundo), independiente de la del sitio */
+  --mar-0: #04121f;
+  --mar-1: #0b2a45;
+  --agua: #8ff5ff;
+  --agua-osc: #1fa9c4;
+  --coral: #ff7a5c;
+  --perla: #e8fbff;
+  position: relative;
+  width: 100%;
+  background: #04121f;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  color: #fff;
+}
+.runner [hidden] { display: none !important; }
+
+.runner__escala {
+  position: relative;
+  width: 960px;
+  height: 540px;
+  transform-origin: 0 0;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  image-rendering: pixelated;
+}
+.runner__escala:focus-visible { box-shadow: inset 0 0 0 4px var(--agua); }
+
+.runner__mundo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0a2a45;
+}
+
+/* ---------------- Parallax: 4 capas (background-position-x lo mueve el JS) ---------------- */
+.rn-capa {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  background-repeat: repeat-x;
+  background-position: 0 0;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+.rn-capa--1 { z-index: 0; }
+.rn-capa--2 { z-index: 1; }
+.rn-capa--3 { z-index: 2; }
+.rn-capa--4 { z-index: 6; }  /* el suelo va al frente */
+
+#rn-entidades { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+#rn-debug { position: absolute; inset: 0; z-index: 9; pointer-events: none; }
+#rn-debug i { position: absolute; border: 2px solid; box-sizing: border-box; }
+
+/* ---------------- Sprites animados (spritesheet horizontal + steps) ---------------- */
+.rn-sprite {
+  width: var(--fw);
+  height: var(--fh);
+  background-repeat: no-repeat;
+  background-size: calc(var(--fw) * var(--n)) var(--fh);
+  background-position: 0 0;
+  image-rendering: pixelated;
+  animation: rnFrames var(--dur) steps(var(--n)) var(--rep);
+  animation-fill-mode: forwards;
+}
+@keyframes rnFrames {
+  from { background-position-x: 0; }
+  to   { background-position-x: calc(var(--fw) * var(--n) * -1); }
+}
+
+.rn-buzo, .rn-item, .rn-pez, .rn-fx, .rn-pilar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  will-change: transform;
+}
+.rn-pilar {
+  transform-origin: 0 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  /* un resplandor para que se lean como obstáculo frente al fondo */
+  filter: brightness(1.2) drop-shadow(0 0 5px #6ff3ff);
+}
+.rn-fx { z-index: 5; }
+
+/* ---------------- Animaciones por evento (@keyframes) ---------------- */
+/* 1) golpe: la cámara se sacude */
+.runner__mundo.sacudir { animation: rnSacudir 0.4s ease; }
+@keyframes rnSacudir {
+  0%, 100% { translate: 0 0; }
+  20% { translate: -9px 4px; }
+  40% { translate: 8px -5px; }
+  60% { translate: -6px -3px; }
+  80% { translate: 5px 3px; }
+}
+
+/* 2) invulnerable tras el golpe: el buzo parpadea */
+.rn-buzo.invulnerable { animation: rnParpadeo 0.28s steps(2) infinite; }
+@keyframes rnParpadeo { 0% { opacity: 1; } 50% { opacity: 0.25; } 100% { opacity: 1; } }
+
+/* 3) gema tomada: crece y se desvanece */
+.rn-item.tomada { animation: rnPop 0.35s ease-out forwards; }
+@keyframes rnPop {
+  0% { scale: 1; opacity: 1; }
+  100% { scale: 2.4; opacity: 0; }
+}
+
+/* 4) el puntaje rebota cuando suma */
+#rn-puntos.sube { animation: rnSube 0.35s ease; }
+@keyframes rnSube {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.5); color: var(--agua); }
+  100% { transform: scale(1); }
+}
+
+/* 5) corazón que se pierde */
+.rn-vida.late { animation: rnLate 0.5s ease; }
+@keyframes rnLate {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.8) rotate(-12deg); }
+  100% { transform: scale(1); }
+}
+
+/* ---------------- HUD ---------------- */
+.runner__hud {
+  position: absolute;
+  inset: 14px 18px auto 18px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-weight: 800;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+.runner__puntos { font-size: 46px; line-height: 1; font-variant-numeric: tabular-nums; display: inline-block; }
+.runner__vidas { display: flex; gap: 6px; font-size: 34px; color: #ff4d6a; }
+.rn-vida { display: inline-block; }
+.rn-vida.perdida { color: rgba(255, 255, 255, 0.25); }
+.runner__record { font-size: 18px; color: #bfe3ff; text-align: right; }
+
+/* ---------------- Botón de música ---------------- */
+.runner__mute {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 13;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid var(--agua-osc);
+  background: rgba(4, 18, 31, 0.8);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.runner__mute:hover { box-shadow: 0 0 14px rgba(143, 245, 255, 0.55); }
+.runner__mute:focus-visible { outline: 3px solid var(--perla); outline-offset: 3px; }
+
+/* ---------------- Carteles ---------------- */
+.runner__cartel {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  background: rgba(2, 14, 28, 0.55);
+  animation: rnAparece 0.3s ease;
+}
+.runner__cartel--fin { background: radial-gradient(ellipse at center, rgba(11, 42, 69, 0.75), rgba(2, 14, 28, 0.92)); }
+.runner__cartel--fin .runner__titulo { color: var(--coral); text-shadow: 0 0 18px rgba(255, 122, 92, 0.6), 0 4px 0 rgba(0, 0, 0, 0.55); }
+.runner__cartel strong { color: var(--agua); }
+@keyframes rnAparece { from { opacity: 0; } to { opacity: 1; } }
+
+.runner__titulo {
+  margin: 0;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--agua);
+  text-shadow: 0 0 18px rgba(31, 169, 196, 0.8), 0 4px 0 rgba(0, 0, 0, 0.55);
+}
+.runner__cartel p { margin: 0; font-size: 22px; }
+.runner__ayuda { color: var(--perla); font-size: 20px !important; }
+.runner__nuevo { color: var(--agua); font-weight: 800; }
+.runner__botones { display: flex; gap: 12px; margin-top: 6px; }
+.rn-btn {
+  font: inherit;
+  font-size: 22px;
+  font-weight: 800;
+  padding: 12px 30px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 3px solid var(--agua-osc);
+  transition: transform 0.12s, box-shadow 0.12s;
+}
+.rn-btn:hover { transform: translateY(-2px); box-shadow: 0 0 16px rgba(143, 245, 255, 0.55); }
+.rn-btn:focus-visible { outline: 3px solid var(--perla); outline-offset: 3px; }
+.rn-btn:disabled { opacity: 0.6; cursor: wait; }
+.rn-btn--prim { background: var(--coral); border-color: #ffb199; color: #2a0f08; }
+.rn-btn--sec { background: rgba(11, 42, 69, 0.85); color: var(--agua); }
+
+/* ---------------- Ayuda con dibujos ---------------- */
+.runner-howto { display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+.runner-howto__item { display: flex; align-items: center; gap: var(--space-2); }
+.runner-howto__item p { margin: 0; }
+.runner-howto__ico {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  background: var(--color-neutral-500);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.runner-howto__teclas kbd {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--color-accent);
+  color: #1a1f35;
+  font-weight: 700;
+  font-size: 0.85em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .runner__mundo.sacudir { animation: none; }
+}
